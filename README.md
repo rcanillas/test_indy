@@ -40,5 +40,10 @@ Nous apporterons une attention particulière à produire un code correct, lisibl
 
 ## Installation 
 
-pip install tqdm
+pip install tqdm matplotlib pytest
 
+## Test
+
+## Output optionnel
+
+S'il est appelé sans argument "threshold" alors un graphe montrant les différents score pour chaque seuil étudié est sauvegardé dans le fichier "optimization_output.png"

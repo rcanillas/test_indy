@@ -1,6 +1,7 @@
 import json
 import argparse
 from tqdm import tqdm
+import matplotlib.pyplot as plt
 
 def aggregate_transactions(file_path):
     transactions_data = []
@@ -68,6 +69,8 @@ def main(file_path, threshold):
     search_grid = generate_search_grid(threshold)
     ## the minimum score is derived from the guess rate formula, worth case scenario. Ideally should be computed from formula. 
     max_penalized_good_guess_rate = -5
+    max_threshold = 0
+    good_guess_scores = [] 
     for threshold in search_grid:
         match_results = []
         ## could probably use a pandas dataframe here to make process faster
@@ -77,9 +80,19 @@ def main(file_path, threshold):
             match_results.append(transaction_match)
         penalized_good_guess_rate = compute_guess_rate(match_results)
         print(f"Guess rate for threshold {threshold}: {round(penalized_good_guess_rate,3)}")
+        good_guess_scores.append(penalized_good_guess_rate)
         if penalized_good_guess_rate > max_penalized_good_guess_rate:
             max_penalized_good_guess_rate = penalized_good_guess_rate
+            max_threshold = threshold
     print(max_penalized_good_guess_rate)
+    if len(search_grid) > 1:
+        plt.plot(search_grid,good_guess_scores)
+        plt.plot([max_threshold], [max_penalized_good_guess_rate], marker="o",markersize=10,markerfacecolor="darkred",markeredgecolor="darkred")
+        plt.axhline(max_penalized_good_guess_rate,ls="--",color="darkred")
+        plt.axvline(max_threshold,ls="--",color="darkred")
+        plt.xlabel('Thresholds')
+        plt.ylabel('PenalizedGoodGuessRate')
+        plt.savefig("optimization_output.png")
     return max_penalized_good_guess_rate
 
 
