@@ -1,11 +1,13 @@
 import json
 import argparse
+from tqdm import tqdm
 
 def aggregate_transactions(file_path):
     transactions_data = []
     ## could probably use pandas to do it faster
     with open(file_path,"r") as input_file:
-        for transaction_line in input_file:
+        print("Unpacking data")
+        for transaction_line in tqdm(input_file):
             transactions_data.append(json.loads(transaction_line))
     return transactions_data
 
@@ -69,10 +71,12 @@ def main(file_path, threshold):
     for threshold in search_grid:
         match_results = []
         ## could probably use a pandas dataframe here to make process faster
-        for transaction_line in transaction_data:
+        print(f"Evaluating threshold {threshold}")
+        for transaction_line in tqdm(transaction_data):
             transaction_match = get_match_result(threshold, transaction_line)
             match_results.append(transaction_match)
         penalized_good_guess_rate = compute_guess_rate(match_results)
+        print(f"Guess rate for threshold {threshold}: {round(penalized_good_guess_rate,3)}")
         if penalized_good_guess_rate > max_penalized_good_guess_rate:
             max_penalized_good_guess_rate = penalized_good_guess_rate
     print(max_penalized_good_guess_rate)

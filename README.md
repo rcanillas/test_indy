@@ -38,6 +38,7 @@ Si le script est appelé sans paramètre threshold, alors il doit déterminer le
 
 Nous apporterons une attention particulière à produire un code correct, lisible et réutilisable.
 
-## Utilisation
+## Installation 
 
-TODO: Remplir cette section 
+pip install tqdm
+
