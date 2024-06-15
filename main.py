@@ -62,6 +62,15 @@ def compute_guess_rate(match_results):
     penalized_good_guess_rate = (nb_good_guess - 5*nb_bad_guess)/len(match_results)
     return penalized_good_guess_rate
 
+def generate_search_plot(search_grid,good_guess_scores, max_threshold,max_penalized_good_guess_rate):
+    if len(search_grid) > 1:
+        plt.plot(search_grid,good_guess_scores)
+        plt.plot([max_threshold], [max_penalized_good_guess_rate], marker="o",markersize=10,markerfacecolor="darkred",markeredgecolor="darkred")
+        plt.axhline(max_penalized_good_guess_rate,ls="--",color="darkred")
+        plt.axvline(max_threshold,ls="--",color="darkred")
+        plt.xlabel('Thresholds')
+        plt.ylabel('PenalizedGoodGuessRate')
+        plt.savefig("optimization_output.png")
 
 def main(file_path, threshold):
     transaction_data = aggregate_transactions(file_path)
@@ -84,15 +93,9 @@ def main(file_path, threshold):
         if penalized_good_guess_rate > max_penalized_good_guess_rate:
             max_penalized_good_guess_rate = penalized_good_guess_rate
             max_threshold = threshold
+    generate_search_plot(search_grid,good_guess_scores, max_threshold,max_penalized_good_guess_rate)
     print(max_penalized_good_guess_rate)
-    if len(search_grid) > 1:
-        plt.plot(search_grid,good_guess_scores)
-        plt.plot([max_threshold], [max_penalized_good_guess_rate], marker="o",markersize=10,markerfacecolor="darkred",markeredgecolor="darkred")
-        plt.axhline(max_penalized_good_guess_rate,ls="--",color="darkred")
-        plt.axvline(max_threshold,ls="--",color="darkred")
-        plt.xlabel('Thresholds')
-        plt.ylabel('PenalizedGoodGuessRate')
-        plt.savefig("optimization_output.png")
+
     return max_penalized_good_guess_rate
 
 
