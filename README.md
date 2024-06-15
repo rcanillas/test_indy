@@ -43,6 +43,7 @@ Nous apporterons une attention particulière à produire un code correct, lisibl
 pip install tqdm matplotlib pytest
 
 ## Test
+python -m pytest
 
 ## Output optionnel
 
