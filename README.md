@@ -37,7 +37,3 @@ Si le script est appelé avec un paramètre threshold, alors il doit calculer la
 Si le script est appelé sans paramètre threshold, alors il doit déterminer le seuil qui maximise la PenalizedGoodGuessRate.
 
 Nous apporterons une attention particulière à produire un code correct, lisible et réutilisable.
-
-## Utilisation
-
-TODO: Remplir cette section 
